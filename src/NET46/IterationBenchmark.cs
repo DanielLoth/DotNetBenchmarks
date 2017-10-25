@@ -2,7 +2,10 @@
 using BenchmarkDotNet.Attributes.Exporters;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
+using BenchmarkDotNet.Toolchains.InProcess;
 using System.Collections.Generic;
 
 namespace NET46
@@ -44,9 +47,34 @@ namespace NET46
         {
             public Config()
             {
-                Add(StatisticColumn.AllStatistics);
+                //Add(StatisticColumn.AllStatistics);
+                Add(VeryFastJobForMemoryDiagnosis); // Comment out this line to run regular benchmark
             }
         }
+
+        public static readonly Job VeryFastJobForMemoryDiagnosis = new Job("Competition")
+        {
+            Env =
+            {
+                Gc =
+                {
+                    Force = false
+                }
+            },
+            Run =
+            {
+                LaunchCount = 1,
+                WarmupCount = 16,
+                TargetCount = 16,
+                RunStrategy = RunStrategy.Throughput,
+                UnrollFactor = 16,
+                InvocationCount = 16
+            },
+            Infrastructure =
+            {
+                Toolchain = InProcessToolchain.DontLogOutput
+            }
+        }.Freeze();
 
         [Setup]
         public void Setup()

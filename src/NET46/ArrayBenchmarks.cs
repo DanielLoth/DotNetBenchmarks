@@ -3,48 +3,75 @@ using BenchmarkDotNet.Attributes.Exporters;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
+using BenchmarkDotNet.Toolchains.InProcess;
 
 namespace NET46
 {
     [Config(typeof(Config))]
     [OrderProvider(SummaryOrderPolicy.FastestToSlowest)]
-    [MemoryDiagnoser]
-    [KeepBenchmarkFiles]
+    //[MemoryDiagnoser]
+    //[KeepBenchmarkFiles]
 
     [AsciiDocExporter]
-    [CsvExporter]
-    [CsvMeasurementsExporter]
+    //[CsvExporter]
+    //[CsvMeasurementsExporter]
     [HtmlExporter]
-    [PlainExporter]
-    [RPlotExporter]
-    [JsonExporterAttribute.Brief]
-    [JsonExporterAttribute.BriefCompressed]
-    [JsonExporterAttribute.Full]
-    [JsonExporterAttribute.FullCompressed]
-    [MarkdownExporterAttribute.Default]
+    //[PlainExporter]
+    //[RPlotExporter]
+    //[JsonExporterAttribute.Brief]
+    //[JsonExporterAttribute.BriefCompressed]
+    //[JsonExporterAttribute.Full]
+    //[JsonExporterAttribute.FullCompressed]
+    //[MarkdownExporterAttribute.Default]
     [MarkdownExporterAttribute.GitHub]
-    [MarkdownExporterAttribute.StackOverflow]
-    [MarkdownExporterAttribute.Atlassian]
+    //[MarkdownExporterAttribute.StackOverflow]
+    //[MarkdownExporterAttribute.Atlassian]
     public class ArrayBenchmarks
     {
         public static int SmallN = 100;
         public static int N = 1000;
 
-        public int[] oneDimensionTo2d = new int[N * N];
-        public int[,] twoDimensions = new int[N, N];
-        public int[,,] threeDimensions = new int[SmallN, SmallN, SmallN];
+        public static int[] oneDimensionTo2d = new int[N * N];
+        public static int[,] twoDimensions = new int[N, N];
+        public static int[,,] threeDimensions = new int[SmallN, SmallN, SmallN];
 
         private class Config : ManualConfig
         {
             public Config()
             {
                 // Same as having the class-level attribute.
-                // Add(MemoryDiagnoser.Default);
-
-                Add(StatisticColumn.AllStatistics);
+                Add(MemoryDiagnoser.Default);
+                //Add(StatisticColumn.AllStatistics);
+                Add(DefaultJob);
             }
         }
+
+        public static readonly Job DefaultJob = new Job("Competition")
+        {
+            Env =
+            {
+                Gc =
+                {
+                    Force = false
+                }
+            },
+            Run =
+            {
+                LaunchCount = 1,
+                WarmupCount = 16,
+                TargetCount = 16,
+                RunStrategy = RunStrategy.Throughput,
+                UnrollFactor = 16,
+                InvocationCount = 16
+            },
+            Infrastructure =
+            {
+                Toolchain = InProcessToolchain.DontLogOutput
+            }
+        }.Freeze();
 
         [Benchmark]
         public void OneDimensionOneLoop()
