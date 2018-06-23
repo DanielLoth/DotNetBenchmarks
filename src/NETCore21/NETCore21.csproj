@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NET46\ArrayBenchmarks.cs" Link="ArrayBenchmarks.cs" />
+    <Compile Include="..\NET46\FlagEnumBenchmarks.cs" Link="FlagEnumBenchmarks.cs" />
+    <Compile Include="..\NET46\IntArrayLoopBenchmark.cs" Link="IntArrayLoopBenchmark.cs" />
+    <Compile Include="..\NET46\IterationBenchmark.cs" Link="IterationBenchmark.cs" />
+    <Compile Include="..\NET46\NullCheckVsNoOpBenchmarks.cs" Link="NullCheckVsNoOpBenchmarks.cs" />
+    <Compile Include="..\NET46\Program.cs" Link="Program.cs" />
+    <Compile Include="..\NET46\Ranges.cs" Link="Ranges.cs" />
+    <Compile Include="..\NET46\RetryLogic.cs" Link="RetryLogic.cs" />
+    <Compile Include="..\NET46\TimingBenchmarks.cs" Link="TimingBenchmarks.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.10.14" />
+  </ItemGroup>
+
+</Project>
