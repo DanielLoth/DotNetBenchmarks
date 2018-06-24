@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Include="..\NET46\ArrayBenchmarks.cs" Link="ArrayBenchmarks.cs" />
+    <Compile Include="..\NET46\DictionaryVsSwitchBenchmarks.cs" Link="DictionaryVsSwitchBenchmarks.cs" />
     <Compile Include="..\NET46\FlagEnumBenchmarks.cs" Link="FlagEnumBenchmarks.cs" />
     <Compile Include="..\NET46\IntArrayLoopBenchmark.cs" Link="IntArrayLoopBenchmark.cs" />
     <Compile Include="..\NET46\IterationBenchmark.cs" Link="IterationBenchmark.cs" />

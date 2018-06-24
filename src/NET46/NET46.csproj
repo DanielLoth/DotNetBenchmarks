@@ -167,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayBenchmarks.cs" />
+    <Compile Include="DictionaryVsSwitchBenchmarks.cs" />
     <Compile Include="FlagEnumBenchmarks.cs" />
     <Compile Include="IntArrayLoopBenchmark.cs" />
     <Compile Include="IterationBenchmark.cs" />
